@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UX-Driven Stock Verification Tool</title>
+  <!-- Tailwind CSS for clean layout & styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-6 font-sans">
+
+  <div class="max-w-4xl mx-auto space-y-6">
+    
+    <!-- HEADER: Clear Context & Value Proposition -->
+    <header class="border-b border-slate-800 pb-4 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight">Global Stock Verifier</h1>
+        <p class="text-sm text-slate-400">UX Prototype: Micro-tool designed for fast operational scanning.</p>
+      </div>
+      <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
+        System Status: Ready
+      </span>
+    </header>
+
+    <!-- SECTION 1: PRIMARY ACTION ZONE (Fitts's Law) -->
+    <section class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-6 shadow-xl">
+      <h2 class="text-lg font-semibold mb-2">1. Input Part Numbers</h2>
+      <p class="text-xs text-slate-400 mb-4">Paste part numbers below (comma-separated) or click 'Load Mock Batch' to test.</p>
+      
+      <div class="space-y-4">
+        <textarea id="part-input" rows="3" 
+          class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all placeholder:text-slate-600"
+          placeholder="e.g., PART-101, PART-102, PART-103..."></textarea>
+        
+        <div class="flex gap-3">
+          <!-- Primary CTA (Large, obvious target) -->
+          <button id="check-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99] text-white font-medium py-3 px-6 rounded-lg transition-all flex justify-center items-center gap-2 shadow-lg shadow-indigo-600/20">
+            <span>Verify Availability</span>
+          </button>
+          
+          <!-- Secondary Action (Lower visual prominence) -->
+          <button id="demo-btn" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium px-4 py-3 rounded-lg transition-all">
+            Load Mock Batch
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: PROGRESSIVE DISCLOSURE (Advanced Settings Hidden by Default) -->
+    <details class="bg-slate-800/30 border border-slate-800 rounded-xl p-4 text-sm text-slate-400 cursor-pointer">
+      <summary class="font-medium text-slate-300 hover:text-white transition-colors">
+        ⚙️ Advanced UX Controls (Click to expand)
+      </summary>
+      <div class="mt-4 pt-4 border-t border-slate-800 grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs mb-1">Target Region</label>
+          <select id="region" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs">
+            <option>North America (NA)</option>
+            <option>Europe (EU)</option>
+            <option>Asia Pacific (APAC)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs mb-1">Simulated Delay (Tests Loading State)</label>
+          <select id="speed" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs">
+            <option value="500">Fast (0.5s)</option>
+            <option value="1500" selected>Standard (1.5s)</option>
+          </select>
+        </div>
+      </div>
+    </details>
+
+    <!-- SECTION 3: VISUAL HIERARCHY & RESULTS (Scannable Cards) -->
+    <section>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Results Dashboard</h2>
+        <span id="summary-badge" class="text-xs text-slate-400">0 Items Analyzed</span>
+      </div>
+
+      <!-- EMPTY STATE (UX Principle: Always guide the user when there is no data) -->
+      <div id="empty-state" class="bg-slate-800/30 border border-dashed border-slate-700 rounded-xl p-8 text-center">
+        <div class="text-3xl mb-2">📦</div>
+        <p class="text-slate-400 text-sm">No items checked yet.</p>
+        <p class="text-slate-500 text-xs mt-1">Enter part numbers above and click "Verify Availability".</p>
+      </div>
+
+      <!-- LOADING STATE (UX Principle: Immediate System Feedback) -->
+      <div id="loading-state" class="hidden bg-slate-800/40 border border-slate-700 rounded-xl p-8 text-center space-y-3">
+        <div class="inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-sm text-slate-300">Querying regional databases...</p>
+      </div>
+
+      <!-- RESULTS TABLE (Scannable Layout with Status Badges) -->
+      <div id="results-table" class="hidden overflow-x-auto rounded-xl border border-slate-700 bg-slate-800/60">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-900/80 text-slate-400 text-xs uppercase border-b border-slate-700">
+            <tr>
+              <th class="p-3">Part Number</th>
+              <th class="p-3">Status</th>
+              <th class="p-3">Qty Available</th>
+              <th class="p-3">Action</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" class="divide-y divide-slate-700/50">
+            <!-- Dynamic rows inserted by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
